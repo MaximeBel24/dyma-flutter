@@ -19,30 +19,17 @@ class MyApp extends StatelessWidget {
           child: Container(
             color: Colors.red,
             height: 150,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              textDirection: TextDirection.ltr,
+            child: Stack(
+              alignment: Alignment.center,
               children: <Widget>[
+                Text('Hello world', textDirection: TextDirection.ltr),
                 Container(
-                  height: 50.00,
-                  width: 50.00,
-                  color: Colors.teal[200]
-                ),
-                Expanded(
-                  child: Container(
-                    height: 50.00,
-                    width: 50.00,
-                    color: Colors.teal[300]
-                  ),
-                ),
-                Container(
-                  height: 50.00,
-                  width: 50.00,
-                  color: Colors.teal[400]
-                ),
+                  color: Colors.red.withOpacity(0.2),
+                  width: 300.00,
+                  height: 100.00,
+                ),                
               ],
-            )
+            ),
           )
         ),
         Expanded(
