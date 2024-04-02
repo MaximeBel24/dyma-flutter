@@ -17,8 +17,32 @@ class MyApp extends StatelessWidget {
         ),
         Expanded(
           child: Container(
-          color: Colors.red,
-          height: 150,
+            color: Colors.red,
+            height: 150,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              textDirection: TextDirection.ltr,
+              children: <Widget>[
+                Container(
+                  height: 50.00,
+                  width: 50.00,
+                  color: Colors.teal[200]
+                ),
+                Expanded(
+                  child: Container(
+                    height: 50.00,
+                    width: 50.00,
+                    color: Colors.teal[300]
+                  ),
+                ),
+                Container(
+                  height: 50.00,
+                  width: 50.00,
+                  color: Colors.teal[400]
+                ),
+              ],
+            )
           )
         ),
         Expanded(
