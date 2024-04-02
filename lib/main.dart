@@ -8,31 +8,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Text.rich(
-        TextSpan(
-          text: 'Fr',
-          style: TextStyle(
-            color: Colors.blue
+      child: Image(
+          image: AssetImage(
+            'assets/bird.jpg'
           ),
-          children: [
-            TextSpan(
-              text: 'an',
-              style: TextStyle(
-                color: Colors.white
-              )
-            ),
-            TextSpan(
-              text: 'ce',
-              style: TextStyle(
-                color: Colors.red
-              )
-            )
-          ]
-        ),
-        textDirection: TextDirection.ltr,
-        style: TextStyle(
-          fontSize: 50.0
-        ),
+          width: 300.0,
+          height: 600.0,
         )
     );
   }
