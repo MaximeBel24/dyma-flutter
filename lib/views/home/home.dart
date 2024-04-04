@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_first_app/city_card.dart';
+import 'package:my_first_app/views/home/widgets/city_card.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -8,10 +8,10 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   List cities = [
-    {'name': 'Paris', 'image': 'assets/images/paris.jpg', 'checked': false},
-    {'name': 'Lyon', 'image': 'assets/images/lyon.jpg', 'checked': false},
-    {'name': 'Londres', 'image': 'assets/images/londres.jpg', 'checked': false},
-    {'name': 'Tokyo', 'image': 'assets/images/tokyo.jpg', 'checked': false},
+    {'name': 'Paris', 'image': 'assets/images/city/paris.jpg', 'checked': false},
+    {'name': 'Lyon', 'image': 'assets/images/city/lyon.jpg', 'checked': false},
+    {'name': 'Londres', 'image': 'assets/images/city/londres.jpg', 'checked': false},
+    {'name': 'Tokyo', 'image': 'assets/images/city/tokyo.jpg', 'checked': false},
   ];
 
   void switchChecked(city) {
@@ -41,9 +41,8 @@ class _HomeState extends State<Home> {
                 name: city['name'],
                 image: city['image'],
                 checked: city['checked'],
-                updateChecked: () {
-                  switchChecked(city);
-                },
+                updateChecked: () =>
+                  switchChecked(city),
               );
             }).toList(),
         ),

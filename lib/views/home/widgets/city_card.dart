@@ -4,14 +4,14 @@ class CityCard extends StatelessWidget {
   final String name;
   final String image;
   final bool checked;
-  final VoidCallback? updateChecked;
+  final VoidCallback updateChecked;
 
   CityCard(
       {super.key,
       required this.name,
       required this.image,
       required this.checked,
-      this.updateChecked});
+      required this.updateChecked});
 
   @override
   Widget build(BuildContext context) {
@@ -36,9 +36,9 @@ class CityCard extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const <Widget>[
+                    children: <Widget>[
                       Icon(
-                        Icons.star_border,
+                        checked ? Icons.star : Icons.star_border,
                         size: 30,
                         color: Colors.white,
                       ),
