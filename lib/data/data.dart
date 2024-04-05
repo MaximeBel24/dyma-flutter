@@ -25,4 +25,17 @@ List<Activity> activities = [
       name: 'Tour Eiffel',
       id: 'a4'
   ),
+  Activity(
+      city: 'Paris',
+      image: 'assets/images/activities/sacre_coeur.jpg',
+      name: 'Sacré coeur',
+      id: 'a5'
+  ),
+  Activity(
+      city: 'Paris',
+      image: 'assets/images/activities/luxembourg.jpg',
+      name: 'Jardin du luxembourg',
+      id: 'a2'
+  ),
+
 ];
