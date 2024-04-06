@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:my_first_app/views/city/widgets/trip_overview.dart';
 import '../../models/trip.model.dart';
 import '../../models/activity.model.dart';
 import '../../data/data.dart' as data;
@@ -13,19 +15,34 @@ class City extends StatefulWidget {
 }
 
 class _CityState extends State<City> {
-  Trip mytrip = Trip(activities: [], city: 'Paris');
+  Trip mytrip = Trip(activities: [], city: 'Paris', date: DateTime.now());
+
+  void setDate() {
+    showDatePicker(
+            context: context,
+            firstDate: DateTime.now(),
+            initialDate: DateTime.now().add(const Duration(days: 1)),
+            lastDate: DateTime(2025))
+        .then((newDate) {
+      if (newDate != null) {
+        setState(() {
+          mytrip.date = newDate;
+        });
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.blue,
+          backgroundColor: Colors.cyan[600],
           leading: const Icon(
             Icons.chevron_left,
             color: Colors.white,
           ),
           title: const Text(
-            'Paris',
+            'Organisation voyage',
             style: TextStyle(color: Colors.white),
           ),
           actions: const <Widget>[
@@ -36,25 +53,7 @@ class _CityState extends State<City> {
             padding: const EdgeInsets.all(10),
             child: Column(
               children: <Widget>[
-                Container(
-                  padding: EdgeInsets.all(10),
-                  height: 200,
-                  color: Colors.white,
-                  child: Column(children: <Widget>[
-                    Row(
-                      children: <Widget>[
-                        Expanded(child: Text('Choisissez une date')),
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.blue
-                          ),
-                          child: Text('Selectionner une date',style: TextStyle(color: Colors.white),),
-                          onPressed: () {},
-                        )
-                      ],
-                    )
-                  ]),
-                ),
+                TripOverview(setDate: setDate, mytrip: mytrip),
                 Expanded(
                   child: GridView.extent(
                       maxCrossAxisExtent: 200,
