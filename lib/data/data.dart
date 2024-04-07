@@ -35,7 +35,7 @@ List<Activity> activities = [
       city: 'Paris',
       image: 'assets/images/activities/luxembourg.jpg',
       name: 'Jardin du luxembourg',
-      id: 'a2'
+      id: 'a6'
   ),
 
 ];

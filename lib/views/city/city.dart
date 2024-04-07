@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'package:my_first_app/views/city/widgets/activity_list.dart';
+import 'package:my_first_app/views/city/widgets/trip_activity_list.dart';
 import 'package:my_first_app/views/city/widgets/trip_overview.dart';
 import '../../models/trip.model.dart';
 import '../../models/activity.model.dart';
 import '../../data/data.dart' as data;
-import 'widgets/activity_card.dart';
 
 class City extends StatefulWidget {
   final List<Activity> activities = data.activities;
@@ -15,7 +15,21 @@ class City extends StatefulWidget {
 }
 
 class _CityState extends State<City> {
-  Trip mytrip = Trip(activities: [], city: 'Paris', date: DateTime.now());
+  late Trip mytrip;
+  late int index;
+
+  @override
+  void initState() {
+    super.initState();
+    mytrip = Trip(city: 'Paris', activities: [], date: DateTime.now());
+    index = 0;
+  }
+
+  List<Activity> get tripActivities {
+    return widget.activities
+        .where((activity) => mytrip.activities.contains(activity.id))
+        .toList();
+  }
 
   void setDate() {
     showDatePicker(
@@ -32,38 +46,79 @@ class _CityState extends State<City> {
     });
   }
 
+  void switchIndex(newIndex) {
+    setState(() {
+      index = newIndex;
+    });
+  }
+
+  void toggleActivity(String id) {
+    setState(() {
+      mytrip.activities.contains(id)
+          ? mytrip.activities.remove(id)
+          : mytrip.activities.add(id);
+    });
+  }
+
+  void deleteTripActivity(String id) {
+    setState(() {
+      mytrip.activities.remove(id);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.cyan[600],
-          leading: const Icon(
-            Icons.chevron_left,
-            color: Colors.white,
-          ),
-          title: const Text(
-            'Organisation voyage',
-            style: TextStyle(color: Colors.white),
-          ),
-          actions: const <Widget>[
-            Icon(Icons.more_vert),
-          ],
+      appBar: AppBar(
+        backgroundColor: Colors.cyan[600],
+        leading: const Icon(
+          Icons.chevron_left,
+          color: Colors.white,
         ),
-        body: Container(
-            padding: const EdgeInsets.all(10),
-            child: Column(
-              children: <Widget>[
-                TripOverview(setDate: setDate, mytrip: mytrip),
-                Expanded(
-                  child: GridView.extent(
-                      maxCrossAxisExtent: 200,
-                      mainAxisSpacing: 3,
-                      crossAxisSpacing: 3,
-                      children: widget.activities
-                          .map((activity) => ActivityCard(activity: activity))
-                          .toList()),
-                )
-              ],
-            )));
+        title: const Text(
+          'Organisation voyage',
+          style: TextStyle(color: Colors.white),
+        ),
+        actions: const <Widget>[
+          Icon(Icons.more_vert),
+        ],
+      ),
+      body: Container(
+          padding: const EdgeInsets.all(10),
+          child: Column(
+            children: <Widget>[
+              TripOverview(setDate: setDate, mytrip: mytrip),
+              Expanded(
+                child: index == 0
+                    ? ActivityList(
+                        activities: widget.activities,
+                        selectedActivities: mytrip.activities,
+                        toggleActivity: toggleActivity,
+                      )
+                    : TripActivityList(
+                      activities: tripActivities,
+                      deleteTripActivity: deleteTripActivity,
+                    ),
+              )
+            ],
+          )),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: index,
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.map,
+              color: Colors.cyan,
+            ),
+            label: 'Decouverte',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.stars, color: Colors.cyan),
+            label: 'Mes activités',
+          )
+        ],
+        onTap: switchIndex,
+      ),
+    );
   }
 }
