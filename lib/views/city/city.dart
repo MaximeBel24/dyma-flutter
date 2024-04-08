@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:my_first_app/views/city/widgets/activity_list.dart';
-import 'package:my_first_app/views/city/widgets/trip_activity_list.dart';
-import 'package:my_first_app/views/city/widgets/trip_overview.dart';
+import 'widgets/activity_list.dart';
+import 'widgets/trip_activity_list.dart';
+import 'widgets/trip_overview.dart';
 import '../../models/trip.model.dart';
 import '../../models/activity.model.dart';
 import '../../data/data.dart' as data;
+import '../../widgets/data.dart';
 
 class City extends StatefulWidget {
   final List<Activity> activities = data.activities;
@@ -17,12 +18,19 @@ class City extends StatefulWidget {
 class _CityState extends State<City> {
   late Trip mytrip;
   late int index;
+  late List<Activity> activities;
 
   @override
   void initState() {
     super.initState();
     mytrip = Trip(city: 'Paris', activities: [], date: DateTime.now());
     index = 0;
+  }
+
+@override
+  didChangeDependencies() {
+    super.didChangeDependencies();
+    activities = Data.of(context).activities;
   }
 
   List<Activity> get tripActivities {

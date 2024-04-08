@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'views/city/city.dart';
-// import 'package:my_first_app/views/home/home.dart';
+import 'widgets/data.dart';
 
-main() {
-  runApp(DymaTrip());
-}
+void main() => runApp(const DymaTrip());
 
 class DymaTrip extends StatelessWidget {
   const DymaTrip({super.key});
@@ -13,8 +11,9 @@ class DymaTrip extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      // home: Home(),
-      home: City(),
+      home: Data(
+        child: City(),
+      ),
     );
   }
 }
