@@ -2,20 +2,20 @@ import 'package:flutter/material.dart';
 import 'widgets/activity_list.dart';
 import 'widgets/trip_activity_list.dart';
 import 'widgets/trip_overview.dart';
-import '../../models/trip.model.dart';
-import '../../models/activity.model.dart';
+import '../../models/trip_model.dart';
+import '../../models/activity_model.dart';
 import '../../data/data.dart' as data;
 import '../../widgets/data.dart';
 
-class City extends StatefulWidget {
+class CityView extends StatefulWidget {
   final List<Activity> activities = data.activities;
 
-  City({super.key});
+  CityView({super.key});
   @override
-  State<City> createState() => _CityState();
+  State<CityView> createState() => _CityViewState();
 }
 
-class _CityState extends State<City> {
+class _CityViewState extends State<CityView> {
   late Trip mytrip;
   late int index;
   late List<Activity> activities;

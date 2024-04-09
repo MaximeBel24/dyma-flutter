@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import '../data/data.dart' as data;
-import '../models/activity.model.dart';
+import '../models/activity_model.dart';
 
-class Data extends InheritedWidget{
+class Data extends InheritedWidget {
   final List<Activity> activities = data.activities;
 
   Data({super.key, required super.child});
@@ -17,6 +17,6 @@ class Data extends InheritedWidget{
     return result!;
   }
 
-@override
+  @override
   bool updateShouldNotify(Data oldWidget) => true;
 }
