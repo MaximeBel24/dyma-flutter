@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
-import 'widgets/activity_list.dart';
+import '../../models/city_model.dart';
 import 'widgets/trip_activity_list.dart';
+import 'widgets/activity_list.dart';
 import 'widgets/trip_overview.dart';
-import '../../models/trip_model.dart';
-import '../../models/activity_model.dart';
 import '../../data/data.dart' as data;
-import '../../widgets/data.dart';
+import '../../models/activity_model.dart';
+import '../../models/trip_model.dart';
 
 class CityView extends StatefulWidget {
+  static const String routeName = '/city';
   final List<Activity> activities = data.activities;
+  final City city;
 
-  CityView({super.key});
+  CityView({super.key, required this.city});
+
   @override
   State<CityView> createState() => _CityViewState();
 }
@@ -23,14 +26,8 @@ class _CityViewState extends State<CityView> {
   @override
   void initState() {
     super.initState();
-    mytrip = Trip(city: 'Paris', activities: [], date: DateTime.now());
+    mytrip = Trip(activities: [], city: 'Paris', date: DateTime.now());
     index = 0;
-  }
-
-@override
-  didChangeDependencies() {
-    super.didChangeDependencies();
-    activities = Data.of(context).activities;
   }
 
   List<Activity> get tripActivities {
@@ -41,11 +38,11 @@ class _CityViewState extends State<CityView> {
 
   void setDate() {
     showDatePicker(
-            context: context,
-            firstDate: DateTime.now(),
-            initialDate: DateTime.now().add(const Duration(days: 1)),
-            lastDate: DateTime(2025))
-        .then((newDate) {
+      context: context,
+      firstDate: DateTime.now(),
+      initialDate: DateTime.now().add(const Duration(days: 1)),
+      lastDate: DateTime(2030),
+    ).then((newDate) {
       if (newDate != null) {
         setState(() {
           mytrip.date = newDate;
@@ -78,50 +75,41 @@ class _CityViewState extends State<CityView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.cyan[600],
-        leading: const Icon(
-          Icons.chevron_left,
-          color: Colors.white,
-        ),
-        title: const Text(
-          'Organisation voyage',
-          style: TextStyle(color: Colors.white),
-        ),
+        title: const Text('Organisation du voyage'),
         actions: const <Widget>[
           Icon(Icons.more_vert),
         ],
       ),
-      body: Container(
-          padding: const EdgeInsets.all(10),
-          child: Column(
-            children: <Widget>[
-              TripOverview(setDate: setDate, mytrip: mytrip),
-              Expanded(
-                child: index == 0
-                    ? ActivityList(
-                        activities: widget.activities,
-                        selectedActivities: mytrip.activities,
-                        toggleActivity: toggleActivity,
-                      )
-                    : TripActivityList(
-                      activities: tripActivities,
-                      deleteTripActivity: deleteTripActivity,
-                    ),
+      body: Column(
+          children: <Widget>[
+            TripOverview(
+              mytrip: mytrip,
+              setDate: setDate,
+              cityName: widget.city.name,
+            ),
+            Expanded(
+              child: index == 0
+                  ? ActivityList(
+                activities: widget.activities,
+                selectedActivities: mytrip.activities,
+                toggleActivity: toggleActivity,
               )
-            ],
-          )),
+                  : TripActivityList(
+                activities: tripActivities,
+                deleteTripActivity: deleteTripActivity,
+              ),
+            )
+          ],
+        ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: index,
         items: const [
           BottomNavigationBarItem(
-            icon: Icon(
-              Icons.map,
-              color: Colors.cyan,
-            ),
-            label: 'Decouverte',
+            icon: Icon(Icons.map),
+            label: 'Découverte',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.stars, color: Colors.cyan),
+            icon: Icon(Icons.stars),
             label: 'Mes activités',
           )
         ],
