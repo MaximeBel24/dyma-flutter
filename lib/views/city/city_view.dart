@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../models/city_model.dart';
+import '../home/home_view.dart';
 import 'widgets/trip_activity_list.dart';
 import 'widgets/activity_list.dart';
 import 'widgets/trip_overview.dart';
@@ -23,17 +24,25 @@ class _CityViewState extends State<CityView> {
   late int index;
   late List<Activity> activities;
 
+  List<Activity> get tripActivities {
+    return widget.activities
+        .where((activity) => mytrip.activities.contains(activity.id))
+        .toList();
+  }
+
+  double get amount {
+    return mytrip.activities.fold(0.0, (acc, cur) {
+      final activity =
+          widget.activities.firstWhere((activity) => activity.id == cur);
+      return acc + activity.price;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
     mytrip = Trip(activities: [], city: 'Paris', date: DateTime.now());
     index = 0;
-  }
-
-  List<Activity> get tripActivities {
-    return widget.activities
-        .where((activity) => mytrip.activities.contains(activity.id))
-        .toList();
   }
 
   void setDate() {
@@ -71,6 +80,42 @@ class _CityViewState extends State<CityView> {
     });
   }
 
+  void saveTrip() async {
+    final result = await showDialog(
+        context: context,
+        builder: (context) => SimpleDialog(
+                title: const Text('Voulez-vous sauvegarder ?'),
+                contentPadding: const EdgeInsets.all(20),
+                children: <Widget>[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: <Widget>[
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: Theme.of(context).primaryColor),
+                        onPressed: () {
+                          Navigator.pop(context, 'save');
+                        },
+                        child: const Text(
+                          'Sauvegarder',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 20,
+                      ),
+                      ElevatedButton(
+                        child: const Text('Annuler'),
+                        onPressed: () {
+                          Navigator.pop(context, 'cancel');
+                        },
+                      )
+                    ],
+                  )
+                ]));
+    if (mounted) Navigator.pushNamed(context, HomeView.routeName);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -81,26 +126,30 @@ class _CityViewState extends State<CityView> {
         ],
       ),
       body: Column(
-          children: <Widget>[
-            TripOverview(
+        children: <Widget>[
+          TripOverview(
               mytrip: mytrip,
               setDate: setDate,
               cityName: widget.city.name,
-            ),
-            Expanded(
-              child: index == 0
-                  ? ActivityList(
-                activities: widget.activities,
-                selectedActivities: mytrip.activities,
-                toggleActivity: toggleActivity,
-              )
-                  : TripActivityList(
-                activities: tripActivities,
-                deleteTripActivity: deleteTripActivity,
-              ),
-            )
-          ],
-        ),
+              amount: amount),
+          Expanded(
+            child: index == 0
+                ? ActivityList(
+                    activities: widget.activities,
+                    selectedActivities: mytrip.activities,
+                    toggleActivity: toggleActivity,
+                  )
+                : TripActivityList(
+                    activities: tripActivities,
+                    deleteTripActivity: deleteTripActivity,
+                  ),
+          )
+        ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: saveTrip,
+        child: const Icon(Icons.forward),
+      ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: index,
         items: const [
