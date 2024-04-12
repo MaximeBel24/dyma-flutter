@@ -28,6 +28,31 @@ class _HomeViewState extends State<HomeView> {
         title: const Text('Dyma Trip'),
         actions: const <Widget>[Icon(Icons.more_vert)],
       ),
+      drawer: Drawer(
+        child: ListView(
+          children: <Widget>[
+            DrawerHeader(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    Theme.of(context).primaryColor,
+                    Theme.of(context).primaryColor.withOpacity(0.5),
+                  ],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                )
+              ),
+            )
+            ListTile(
+              leading: const Icon(Icons.home),
+              title: const Text('Accueil'),
+              onTap: () {
+                
+              },
+            )
+          ],
+        ),
+      ),
       body: Container(
         padding: const EdgeInsets.all(10),
         child: Column(
