@@ -1,11 +1,15 @@
+import 'package:flutter/cupertino.dart';
+
+import 'activity_model.dart';
+
 class Trip {
+  String? id;
   String city;
-  List<String> activities;
-  DateTime date;
-  
-  Trip({ 
-    required this.city, 
+  List<Activity> activities;
+  DateTime? date;
+  Trip({
+    required this.city,
     required this.activities,
-    required this.date
-  });
+    this.date,
+  }) : id = UniqueKey().toString();
 }

@@ -1,75 +1,36 @@
 import 'package:flutter/material.dart';
-import 'models/trip_model.dart';
-import 'views/404/not_found.dart';
-import 'views/trips/trips_view.dart';
-import 'models/city_model.dart';
+import 'package:provider/provider.dart';
+import 'providers/city_provider.dart';
+import './views/home/home_view.dart';
+import 'providers/trip_provider.dart';
 import 'views/city/city_view.dart';
-import 'views/home/home_view.dart';
-import './data/data.dart' as data;
 
-void main() => runApp(DymaTrip());
+main() {
+  runApp(const DymaTrip());
+}
 
 class DymaTrip extends StatefulWidget {
-  final List<City> cities = data.cities;
-
-  DymaTrip({super.key});
+  const DymaTrip({super.key});
 
   @override
   State<DymaTrip> createState() => _DymaTripState();
 }
 
 class _DymaTripState extends State<DymaTrip> {
-  List<Trip> trips = [
-    Trip(
-        activities: [],
-        city: 'Paris',
-        date: DateTime.now().add(const Duration(days: 1))),
-    Trip(
-        activities: [],
-        city: 'Lyon',
-        date: DateTime.now().add(const Duration(days: 2))),
-    Trip(
-        activities: [],
-        city: 'Londres',
-        date: DateTime.now().subtract(const Duration(days: 1))),
-  ];
-
-  void addTrip(Trip trip) {
-    setState(() {
-      trips.add((trip));
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      routes: {
-        HomeView.routeName: (context) => HomeView(cities: widget.cities),
-      },
-      onGenerateRoute: (settings) {
-        switch (settings.name) {
-          case CityView.routeName:
-            {
-              return MaterialPageRoute(builder: (context) {
-                final City city = settings.arguments as City;
-                return CityView(
-                  city: city,
-                  addTrip: addTrip,
-                );
-              });
-            }
-          case TripsView.routeName:
-            {
-              return MaterialPageRoute(builder: (context) {
-                return TripsView(trips: trips);
-              });
-            }
-        }
-      },
-      onUnknownRoute: (settings) {
-        return MaterialPageRoute(builder: (context) => const NotFound());
-      },
-    );
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider.value(value: CityProvider()),
+        ChangeNotifierProvider.value(value: TripProvider()),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        routes: {
+          '/': (context) => const HomeView(),
+          CityView.routeName: (context) => const CityView(),
+          },
+        ),
+      );
   }
 }

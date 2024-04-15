@@ -1,6 +1,7 @@
-import 'package:my_first_app/models/city_model.dart';
+import '../models/city_model.dart';
 
 import '../models/activity_model.dart';
+import '../models/trip_model.dart';
 
 List<City> cities = [
   City(
@@ -111,4 +112,43 @@ List<City> cities = [
         price: 100.00,
       ),
   ])
+];
+
+
+List<Trip> trips = [
+  Trip(
+    activities: [
+      Activity(
+        image: 'images/activities/louvre.jpeg',
+        name: 'Louvre',
+        id: 'a1',
+        city: 'Paris',
+        price: 12.00,
+      ),
+      Activity(
+        image: 'images/activities/sacre_coeur.jpeg',
+        name: 'Sacre Coeur',
+        id: 'a5',
+        city: 'Paris',
+        price: 0.00,
+      ),
+      Activity(
+        image: 'images/activities/notre_dame.jpeg',
+        name: 'Notre-Dame',
+        id: 'a2',
+        city: 'Paris',
+        price: 0.00,
+      ),
+    ],
+    city: 'Paris',
+    date: DateTime.now().add(const Duration(days: 1)),
+  ),
+  Trip(
+      activities: [],
+      city: 'Lyon',
+      date: DateTime.now().add(const Duration(days: 2))),
+  Trip(
+      activities: [],
+      city: 'Nice',
+      date: DateTime.now().subtract(const Duration(days: 1))),
 ];
