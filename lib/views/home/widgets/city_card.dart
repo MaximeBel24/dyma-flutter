@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:my_first_app/views/city/city_view.dart';
-import 'package:my_first_app/widgets/data.dart';
 
 import '../../../models/city_model.dart';
 

@@ -1,19 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:my_first_app/widgets/dyma_drawer.dart';
 import '../../models/city_model.dart';
 import '../home/home_view.dart';
 import 'widgets/trip_activity_list.dart';
 import 'widgets/activity_list.dart';
 import 'widgets/trip_overview.dart';
-import '../../data/data.dart' as data;
 import '../../models/activity_model.dart';
 import '../../models/trip_model.dart';
 
 class CityView extends StatefulWidget {
   static const String routeName = '/city';
-  final List<Activity> activities = data.activities;
   final City city;
+  final Function addTrip;
 
-  CityView({super.key, required this.city});
+  List<Activity> get activities {
+    return city.activities;
+  }
+  
+  const CityView({super.key, required this.city, required this.addTrip});
 
   @override
   State<CityView> createState() => _CityViewState();
@@ -22,7 +26,6 @@ class CityView extends StatefulWidget {
 class _CityViewState extends State<CityView> {
   late Trip mytrip;
   late int index;
-  late List<Activity> activities;
 
   List<Activity> get tripActivities {
     return widget.activities
@@ -98,7 +101,9 @@ class _CityViewState extends State<CityView> {
                         },
                         child: const Text(
                           'Sauvegarder',
-                          style: TextStyle(color: Colors.white),
+                          style: TextStyle(
+                            color: Colors.white
+                          ),
                         ),
                       ),
                       const SizedBox(
@@ -113,7 +118,10 @@ class _CityViewState extends State<CityView> {
                     ],
                   )
                 ]));
-    if (mounted) Navigator.pushNamed(context, HomeView.routeName);
+    if (result == 'save') {
+      widget.addTrip(mytrip);
+      if (mounted) Navigator.pushNamed(context, HomeView.routeName);
+    };
   }
 
   @override
@@ -121,10 +129,8 @@ class _CityViewState extends State<CityView> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Organisation du voyage'),
-        actions: const <Widget>[
-          Icon(Icons.more_vert),
-        ],
       ),
+      drawer: const DymaDrawer(),
       body: Column(
         children: <Widget>[
           TripOverview(

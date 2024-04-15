@@ -1,32 +1,75 @@
 import 'package:flutter/material.dart';
-import 'package:my_first_app/views/404/not_found.dart';
+import 'models/trip_model.dart';
+import 'views/404/not_found.dart';
+import 'views/trips/trips_view.dart';
 import 'models/city_model.dart';
 import 'views/city/city_view.dart';
 import 'views/home/home_view.dart';
+import './data/data.dart' as data;
 
-void main() => runApp(const DymaTrip());
+void main() => runApp(DymaTrip());
 
-class DymaTrip extends StatelessWidget {
-  const DymaTrip({super.key});
+class DymaTrip extends StatefulWidget {
+  final List<City> cities = data.cities;
+
+  DymaTrip({super.key});
+
+  @override
+  State<DymaTrip> createState() => _DymaTripState();
+}
+
+class _DymaTripState extends State<DymaTrip> {
+  List<Trip> trips = [
+    Trip(
+        activities: [],
+        city: 'Paris',
+        date: DateTime.now().add(const Duration(days: 1))),
+    Trip(
+        activities: [],
+        city: 'Lyon',
+        date: DateTime.now().add(const Duration(days: 2))),
+    Trip(
+        activities: [],
+        city: 'Londres',
+        date: DateTime.now().subtract(const Duration(days: 1))),
+  ];
+
+  void addTrip(Trip trip) {
+    setState(() {
+      trips.add((trip));
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        routes: {
-          HomeView.routeName: (context) => const HomeView(),
-        },
-        onGenerateRoute: (settings) {
-          if(settings.name == CityView.routeName) {
-            final City city = settings.arguments as City;
-            return MaterialPageRoute(builder: (context) {
-              return CityView(city: city);
-            });
-          }
-        },
-        onUnknownRoute: (settings) {
-          return MaterialPageRoute(builder: (context) => const NotFound());
-        },
-        );
+      debugShowCheckedModeBanner: false,
+      routes: {
+        HomeView.routeName: (context) => HomeView(cities: widget.cities),
+      },
+      onGenerateRoute: (settings) {
+        switch (settings.name) {
+          case CityView.routeName:
+            {
+              return MaterialPageRoute(builder: (context) {
+                final City city = settings.arguments as City;
+                return CityView(
+                  city: city,
+                  addTrip: addTrip,
+                );
+              });
+            }
+          case TripsView.routeName:
+            {
+              return MaterialPageRoute(builder: (context) {
+                return TripsView(trips: trips);
+              });
+            }
+        }
+      },
+      onUnknownRoute: (settings) {
+        return MaterialPageRoute(builder: (context) => const NotFound());
+      },
+    );
   }
 }
