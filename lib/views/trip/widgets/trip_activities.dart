@@ -3,9 +3,9 @@ import '../../../models/activity_model.dart';
 import 'trip_activity_list.dart';
 
 class TripActivities extends StatelessWidget {
-  final List<Activity> activities;
+  final String tripId;
 
-  const TripActivities({super.key, required this.activities});
+  const TripActivities({super.key, required this.tripId});
 
   @override
   Widget build(BuildContext context) {
@@ -33,11 +33,13 @@ class TripActivities extends StatelessWidget {
               physics: const NeverScrollableScrollPhysics(),
               children: <Widget>[
                 TripActivityList(
-                  activities: activities,
+                  tripId: tripId,
+                  filter: ActivityStatus.ongoing,
                 ),
                 TripActivityList(
-                  activities: activities,
-                )
+                  tripId: tripId,
+                  filter: ActivityStatus.done,                
+                ),
               ],
             ),
           )

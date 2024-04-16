@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'views/trip/trip_view.dart';
+import 'views/404/not_found.dart';
+import 'views/trips/trips_view.dart';
 import 'package:provider/provider.dart';
 import 'providers/city_provider.dart';
 import './views/home/home_view.dart';
@@ -28,8 +31,13 @@ class _DymaTripState extends State<DymaTrip> {
         debugShowCheckedModeBanner: false,
         routes: {
           '/': (context) => const HomeView(),
-          CityView.routeName: (context) => const CityView(),
+            CityView.routeName: (context) => const CityView(),
+            TripsView.routeName: (context) => const TripsView(),
+            TripView.routeName:(context) => const TripView(),
           },
+          onUnknownRoute: (_) => MaterialPageRoute(
+            builder: (_) => const NotFound(),
+          ),
         ),
       );
   }

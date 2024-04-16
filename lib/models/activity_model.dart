@@ -13,6 +13,7 @@ class Activity {
     required this.city, 
     this.id, 
     required this.image,
-    required this.price 
-  }) : status = ActivityStatus.ongoing;
+    required this.price ,
+    this.status = ActivityStatus.ongoing,
+  }); 
 }
