@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:my_first_app/views/city/city_view.dart';
 
 import '../../../models/city_model.dart';
 
@@ -25,25 +24,11 @@ class CityCard extends StatelessWidget {
                     Navigator.pushNamed(
                       context,
                       '/city',
-                      arguments: city,
+                      arguments: city.name,
                     );
                   }
                 ),
               ),
-              Positioned(
-                top: 10,
-                left: 10,
-                child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 10,
-                    vertical: 5,
-                  ),
-                  color: Colors.black54,
-                  child: Text(city.name,
-                      style:
-                          const TextStyle(fontSize: 35, color: Colors.white)),
-                ),
-              )
             ],
           )),
     );

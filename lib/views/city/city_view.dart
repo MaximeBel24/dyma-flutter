@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../models/city_model.dart';
 import '../../providers/city_provider.dart';
+import '../../providers/trip_provider.dart';
 import '../../widgets/dyma_drawer.dart';
 import '../home/home_view.dart';
 import 'widgets/trip_activity_list.dart';
@@ -125,8 +126,11 @@ class _CityState extends State<CityView> {
       }
 
     } else if (result == 'save') {
-      mytrip.city = cityName;
-      if (mounted) Navigator.pushNamed(context, HomeView.routeName);
+      if (mounted) {
+        mytrip.city = cityName;
+        Provider.of<TripProvider>(context, listen: false).addTrip(mytrip);
+        Navigator.pushNamed(context, HomeView.routeName);
+      } 
     }
   }
 

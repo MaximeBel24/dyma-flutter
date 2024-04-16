@@ -8,4 +8,9 @@ class TripProvider extends ChangeNotifier {
   final List<Trip> _trips = data.trips;
 
   UnmodifiableListView<Trip> get trips => UnmodifiableListView(_trips);
+
+  void addTrip(Trip trip) {
+    trips.add(trip);
+    notifyListeners();
+  }
 }
